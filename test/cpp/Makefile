@@ -6,6 +6,7 @@ CXX = g++
 DIR = build
 MAKE_DIR = mkdir -p
 RM_RF = rm -rf
+CXXFLAGS = -std=c++11 -pthread
 
 # Entry point
 all: $(DIR) $(EXEC) 
@@ -20,7 +21,7 @@ $(DIR):
 	$(MAKE_DIR) $@
 
 $(EXEC): $(DIR)/test.o
-	$(CXX) -o $@ $^
+	$(CXX) -o $@ $(CXXFLAGS) $^
 
 $(DIR)/test.o: test.cpp
-	$(CXX) -o $@ -c $<
+	$(CXX) -o $@ $(CXXFLAGS) -c $<

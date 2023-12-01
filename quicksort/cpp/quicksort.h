@@ -6,7 +6,7 @@ template <typename T>
 void quicksort(T *arr, int size, bool(isLess)(T, T));
 
 template <typename T>
-void quicksort(T *arr, int min, int max, bool(isLess)(T, T));
+void quicksort_c(T *arr, int min, int max, bool(isLess)(T, T));
 
 template <typename T>
 void quicksort_swap(T *arr, int i, int j);
@@ -16,11 +16,11 @@ void quicksort_swap(T *arr, int i, int j);
 template <typename T>
 void quicksort(T *arr, int size, bool(isLess)(T, T))
 {
-    quicksort<T>(arr, 0, size, isLess);
+    quicksort_c<T>(arr, 0, size, isLess);
 }
 
 template <typename T>
-void quicksort(T *arr, int min, int max, bool(isLess)(T, T))
+void quicksort_c(T *arr, int min, int max, bool(isLess)(T, T))
 {
     if (max - min <= 1)
         return;
@@ -43,8 +43,8 @@ void quicksort(T *arr, int min, int max, bool(isLess)(T, T))
     quicksort_swap<T>(arr, left_pointer_index, pivot_index);
     pivot_index = left_pointer_index;
 
-    quicksort<T>(arr, min, pivot_index, isLess);
-    quicksort<T>(arr, pivot_index + 1, max, isLess);
+    quicksort_c<T>(arr, min, pivot_index, isLess);
+    quicksort_c<T>(arr, pivot_index + 1, max, isLess);
 }
 
 template <typename T>

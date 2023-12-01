@@ -2,26 +2,64 @@
 #include <random>
 #include <chrono>
 #include <ctime>
+#include <string>
 using namespace std;
 
 #include "../../quicksort/cpp/quicksort.h"
+#include "../../quicksort/cpp/quicksort_thread.h"
+#include "../../bubblesort/cpp/bubblesort.h"
+#include "../../mergesort/cpp/mergesort.h"
+#include "../../selectionsort/cpp/selectionsort.h"
+#include "../../insertionsort/cpp/insertionsort.h"
+#include "../../heapsort/cpp/heapsort.h"
 
-#define SIZE 50
+#define DEFAULT_SIZE 100000
+#define DEFAULT_LOGGING false
 
 // Function prototypes
 int *random_array(int size);
 void print_array(int *arr, int size);
+bool check_sorted(int *arr, int size);
 void test_algorithm(void(func)(int *, int, bool(int, int)), string title);
 
-int main()
+int SIZE = DEFAULT_SIZE;
+bool LOGGING = DEFAULT_LOGGING;
+
+int main(int argc, char **argv)
 {
+    // Parse command line arguments
+
+    for (int i = 0; i < argc; i++)
+    {
+        if (string(argv[i]) == "-s")
+            SIZE = stoi(argv[i + 1]);
+
+        if (string(argv[i]) == "-l")
+            LOGGING = true;
+    }
+
     // Seed the random number generator
 
     srand(time(NULL));
 
     // Test the algorithms
 
-    test_algorithm(quicksort<int>, "Quicksort");
+    cout << "\x1b[94mTesting algorithms with array size: \x1b[92m" << SIZE << "\x1b[0m" << endl
+         << endl;
+
+    test_algorithm(quicksort<int>, "Quick Sort");
+
+    test_algorithm(quicksort_thread<int>, "Quick Sort Thread");
+
+    test_algorithm(mergesort<int>, "Merge Sort");
+
+    test_algorithm(heapsort<int>, "Heap Sort");
+
+    test_algorithm(insertionsort<int>, "Insertion Sort");
+
+    test_algorithm(selectionsort<int>, "Selection Sort");
+
+    test_algorithm(bubblesort<int>, "Bubble Sort");
 
     return 0;
 }
@@ -48,17 +86,20 @@ void print_array(int *arr, int size)
 {
     for (int i = 0; i < size; i++)
         cout << arr[i] << " ";
-    cout << endl;
 }
 
 void test_algorithm(void(func)(int *, int, bool(int, int)), string title)
 {
-    cout << "Testing algorithm: " << title << endl;
+    cout << "\x1b[94mTesting algorithm: \x1b[93m" << title << "\x1b[0m" << endl;
 
     int *arr = random_array(SIZE);
 
-    cout << "Before sorting: ";
-    print_array(arr, SIZE);
+    if (LOGGING)
+    {
+        cout << "\x1b[94mBefore sorting: \x1b[97m";
+        print_array(arr, SIZE);
+        cout << "\x1b[0m" << endl;
+    }
 
     auto start = chrono::system_clock::now();
 
@@ -67,8 +108,28 @@ void test_algorithm(void(func)(int *, int, bool(int, int)), string title)
 
     auto end = chrono::system_clock::now();
 
-    cout << "After sorting: ";
-    print_array(arr, SIZE);
+    if (LOGGING)
+    {
+        cout << "\x1b[94mAfter sorting: \x1b[97m";
+        print_array(arr, SIZE);
+        cout << "\x1b[0m" << endl;
+    }
 
-    cout << "Time elapsed: " << chrono::duration_cast<chrono::nanoseconds>(end - start).count() << " ns" << endl;
+    chrono::system_clock::duration time_elapsed = end - start;
+
+    cout << "\x1b[94mTime elapsed: \x1b[97m" << chrono::duration_cast<chrono::nanoseconds>(time_elapsed).count() << " ns (" << chrono::duration_cast<chrono::milliseconds>(time_elapsed).count() << " ms)\x1b[0m" << endl;
+
+    cout << "\x1b[94mStatus: " << (check_sorted(arr, SIZE) ? "\x1b[92mPASSED\x1b[0m" : "\x1b[91mFAILED\x1b[0m") << endl
+         << endl;
+
+    delete[] arr;
+}
+
+bool check_sorted(int *arr, int size)
+{
+    for (int i = 0; i < size - 1; i++)
+        if (arr[i] > arr[i + 1])
+            return false;
+
+    return true;
 }

@@ -20,9 +20,7 @@ void selectionsort(T *arr, int size, bool(isLess)(T, T))
         for (int j = i + 1; j < size; j++)
         {
             if (isLess(arr[j], arr[min_index]))
-            {
                 min_index = j;
-            }
         }
 
         selectionsort_swap<T>(arr, i, min_index);

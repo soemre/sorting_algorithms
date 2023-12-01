@@ -15,16 +15,12 @@ void insertionsort(T *arr, int size, bool(isLess)(T, T))
 {
     for (int i = 1; i < size; i++)
     {
-        for (int j = i; j >= 0; j--)
+        for (int j = i; j > 0; j--)
         {
-            if (isLess(arr[j], arr[j - 1]))
-            {
-                insertionsort_swap<T>(arr, j, j - 1);
-            }
-            else
-            {
+            if (!isLess(arr[j], arr[j - 1]))
                 break;
-            }
+
+            insertionsort_swap<T>(arr, j, j - 1);
         }
     }
 }

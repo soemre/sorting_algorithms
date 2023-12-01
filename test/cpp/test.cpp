@@ -13,17 +13,14 @@ using namespace std;
 #include "../../insertionsort/cpp/insertionsort.h"
 #include "../../heapsort/cpp/heapsort.h"
 
-#define DEFAULT_SIZE 100000
-#define DEFAULT_LOGGING false
-
 // Function prototypes
 int *random_array(int size);
 void print_array(int *arr, int size);
 bool check_sorted(int *arr, int size);
 void test_algorithm(void(func)(int *, int, bool(int, int)), string title);
 
-int SIZE = DEFAULT_SIZE;
-bool LOGGING = DEFAULT_LOGGING;
+int SIZE = 100000;
+bool LOGGING = false;
 
 int main(int argc, char **argv)
 {

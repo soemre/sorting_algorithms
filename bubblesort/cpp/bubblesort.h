@@ -13,13 +13,13 @@ void bubblesort_swap(T *arr, int i, int j);
 template <typename T>
 void bubblesort(T *arr, int size, bool(isLess)(T, T))
 {
-    for (int i = 0; i < size; i++)
+    for (int i = size - 1; i >= 0; i--)
     {
-        for (int i = 0; i < size - 1; i++)
+        for (int j = 0; j < i; j++)
         {
-            if (isLess(arr[i + 1], arr[i]))
+            if (isLess(arr[j + 1], arr[j]))
             {
-                bubblesort_swap<T>(arr, i, i + 1);
+                bubblesort_swap<T>(arr, j, j + 1);
             }
         }
     }

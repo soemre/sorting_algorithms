@@ -33,11 +33,11 @@ void quicksort_c(T *arr, int min, int max, bool(isLess)(T, T))
 
     for (int i = min; i < max - 1; i++)
     {
-        if (!isLess(arr[pivot_index], arr[i]))
-        {
-            quicksort_swap<T>(arr, left_pointer_index, i);
-            left_pointer_index++;
-        }
+        if (isLess(arr[pivot_index], arr[i]))
+            continue;
+
+        quicksort_swap<T>(arr, left_pointer_index, i);
+        left_pointer_index++;
     }
 
     quicksort_swap<T>(arr, left_pointer_index, pivot_index);

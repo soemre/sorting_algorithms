@@ -53,10 +53,9 @@ void heapsort_heapify(T *arr, int size, int parent_index, bool(isLess)(T, T))
         largest_index = right_child_index;
     }
 
-    heapsort_swap<T>(arr, parent_index, largest_index);
-
     if (largest_index != parent_index)
     {
+        heapsort_swap<T>(arr, parent_index, largest_index);
         heapsort_heapify<T>(arr, size, largest_index, isLess);
     }
 }
